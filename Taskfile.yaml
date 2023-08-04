@@ -1,0 +1,12 @@
+version: '3'
+
+tasks:
+  run:
+    desc: "Run project locally"
+    cmd: go run ./cmd/gfetch/
+  build:
+    desc: "Build project locally"
+    cmd: go build ./cmd/gfetch/ -o bin/gfetch
+  tidy:
+    desc: "Add missing and remove unused modules"
+    cmd: go mod tidy
