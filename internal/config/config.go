@@ -2,16 +2,22 @@ package config
 
 import (
 	"errors"
-	"github.com/pelletier/go-toml/v2"
 	"os"
+
+	"github.com/pelletier/go-toml/v2"
 )
 
 var Configs = &Config{}
 
 type Config struct {
-	TestString string `toml:"test_string"`
-	TestInt    int    `toml:"test_int"`
-	TestBool   bool   `toml:"test_bool"`
+	Title struct {
+		BoldTitle   bool
+		ItalicTitle bool
+	} `toml:"Title"`
+	/*Value struct {
+		BoldValue   bool
+		ItalicValue bool
+	}*/
 }
 
 func (c *Config) Load(filename string) error {

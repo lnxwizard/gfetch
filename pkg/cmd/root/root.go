@@ -5,25 +5,30 @@ import (
 	cfg "gfetch/internal/config"
 	sys "gfetch/internal/system"
 	"gfetch/pkg/user"
-	"github.com/MakeNowJust/heredoc"
-	"github.com/spf13/cobra"
+	"github.com/logrusorgru/aurora/v4"
 	"os"
 	s "strings"
+
+	"github.com/MakeNowJust/heredoc"
+	"github.com/spf13/cobra"
 )
 
 var fetch = `
     .--.	%s@%s
    |o_o |	%s
-   |:_/ |	distro: %s
-  //   \ \	kernel: %s
- (|     | )     shell:  %s 	
-/'\_   _/'\	memory: %s	
+   |:_/ |	%s: %s
+  //   \ \	%s: %s
+ (|     | )     %s:  %s 	
+/'\_   _/'\	%s: %s	
 \___)=(___/     %s
-
 `
 
 func init() {
-	if err := cfg.Configs.Load("/.gfetch/.config.toml"); err != nil {
+	/*if err := cfg.Configs.Store("config.toml"); err != nil {
+		os.Exit(2)
+	}*/
+
+	if err := cfg.Configs.Load("config.toml"); err != nil {
 		os.Exit(2)
 	}
 }
@@ -37,23 +42,51 @@ func NewCmdRoot() *cobra.Command {
 		$ gfetch
 		$ gfetch --help`),
 		Version: "0.1.0",
-		RunE: func(cmd *cobra.Command, args []string) error {
-
-			fmt.Printf(
-				fetch,
-				user.GetUsername(),
-				user.GetHostname(),
-				s.Repeat("-", len(user.GetUsername()+user.GetHostname())+1),
-				sys.GetDistro(),
-				sys.GetKernel(),
-				sys.GetShell(),
-				sys.GetMemoryInfo(),
-				sys.GetColors(),
-			)
-
-			return nil
-		},
+		Run:     newRunRoot,
 	}
 
 	return cmd
+}
+
+func newRunRoot(cmd *cobra.Command, args []string) {
+	var (
+		// titles
+		titleDistro string = "distro"
+		titleKernel string = "kernel"
+		titleShell  string = "shell"
+		titleMemory string = "memory"
+
+		// values
+		username string = user.GetUsername()
+		hostname string = user.GetHostname()
+		distro   string = sys.GetDistro()
+		kernel   string = sys.GetKernel()
+		shell    string = sys.GetShell()
+		memory   string = sys.GetMemoryInfo()
+		colors   string = sys.GetColors()
+	)
+
+	if cfg.Configs.Title.BoldTitle {
+		titleDistro = fmt.Sprint(aurora.Bold(titleDistro))
+		titleKernel = fmt.Sprint(aurora.Bold(titleKernel))
+		titleShell = fmt.Sprint(aurora.Bold(titleShell))
+		titleMemory = fmt.Sprint(aurora.Bold(titleMemory))
+	}
+	if cfg.Configs.Title.ItalicTitle {
+		titleDistro = fmt.Sprint(aurora.Italic(titleDistro))
+		titleKernel = fmt.Sprint(aurora.Italic(titleKernel))
+		titleShell = fmt.Sprint(aurora.Italic(titleShell))
+		titleMemory = fmt.Sprint(aurora.Italic(titleMemory))
+	}
+
+	fmt.Printf(
+		fetch,
+		username, hostname,
+		s.Repeat("-", len(user.GetUsername()+user.GetHostname())+1),
+		titleDistro, distro,
+		titleKernel, kernel,
+		titleShell, shell,
+		titleMemory, memory,
+		colors,
+	)
 }
