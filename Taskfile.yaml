@@ -3,7 +3,7 @@ version: '3'
 tasks:
   run:
     desc: "Run project locally"
-    cmd: go run ./cmd/gfetch/
+    cmd: go run -v ./cmd/gfetch/
   build:
     desc: "Build project locally"
     cmd: go build ./cmd/gfetch/ -o bin/gfetch
