@@ -26,3 +26,6 @@ internal/config/store.go
 
 # .gfetch
 .gfetch
+
+# Compiled files
+/bin
