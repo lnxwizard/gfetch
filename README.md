@@ -61,6 +61,11 @@ You can customize title and value text styles with this simple command:
     ```shell
     go build ./cmd/gfetch
     ```
+
+- Run Program
+	```
+	./gfetch
+	```
   
 # File Architecture
 ```shell
