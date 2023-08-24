@@ -4,10 +4,12 @@ import (
 	"fmt"
 	cfg "gfetch/internal/config"
 	sys "gfetch/internal/system"
+	bugCmd "gfetch/pkg/cmd/bug"
 	"gfetch/pkg/user"
-	"github.com/logrusorgru/aurora/v4"
 	"os"
 	s "strings"
+
+	"github.com/logrusorgru/aurora/v4"
 
 	"github.com/MakeNowJust/heredoc"
 	"github.com/spf13/cobra"
@@ -20,7 +22,8 @@ var fetch = `
   //   \ \	%s: %s
  (|     | )     %s:  %s 	
 /'\_   _/'\	%s: %s	
-\___)=(___/     %s
+\___)=(___/ 	%s: %s
+
 `
 
 func init() {
@@ -45,6 +48,8 @@ func NewCmdRoot() *cobra.Command {
 		Run:     newRunRoot,
 	}
 
+	cmd.AddCommand(bugCmd.NewCmdBug())
+
 	return cmd
 }
 
@@ -63,7 +68,6 @@ func newRunRoot(cmd *cobra.Command, args []string) {
 		kernel   string = sys.GetKernel()
 		shell    string = sys.GetShell()
 		memory   string = sys.GetMemoryInfo()
-		colors   string = sys.GetColors()
 	)
 
 	if cfg.Configs.Title.BoldTitle {
@@ -87,6 +91,6 @@ func newRunRoot(cmd *cobra.Command, args []string) {
 		titleKernel, kernel,
 		titleShell, shell,
 		titleMemory, memory,
-		colors,
+		"desktop", sys.GetDE(),
 	)
 }
