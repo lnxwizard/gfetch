@@ -20,6 +20,7 @@ type Config struct {
 	}*/
 }
 
+// Load settings
 func (c *Config) Load(filename string) error {
 	file, err := os.ReadFile(filename)
 	if err != nil {
@@ -38,6 +39,7 @@ func (c *Config) Load(filename string) error {
 	return nil
 }
 
+// Store settings
 func (c *Config) Store(filename string) error {
 	data, err := toml.Marshal(c)
 	if err != nil {
