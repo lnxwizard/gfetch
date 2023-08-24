@@ -1,6 +1,15 @@
 # gfetch
 A minimal system fetch written in Go.
 
+# Table of Contents
+- [Usage](#usage)
+    - [Examples](#examples)
+    - [Flags](#flags)
+- [Configuration](#configuration)
+- [Building](#building)
+- [File Architecture](#file-architecture)
+- [License](#license)
+
 # Usage
 ```shell
 gfetch
@@ -68,30 +77,38 @@ You can customize title and value text styles with this simple command:
 	```
   
 # File Architecture
-```shell
+```
 gfetch
-├── cmd // main file
-│   └── gfetch
-│       └── main.go
-├── internal 
-│   ├── config // config library
-│   │   └── config.go
-│   └── system // system library for getting distro, kernel, memory etc... information
-│       ├── color.go
-│       ├── desktop.go
-│       ├── distro.go
-│       ├── kernel.go
-│       ├── memory.go
-│       └── shell.go
-├── pkg
-│   ├── cmd // all commands
-│   │   └── root
-│   │       └── root.go
-│   └── user // user library for getting hostname and username
-│       ├── hostname.go
-│       └── username.go
+├── cmd
+│   └── gfetch
+│       └── main.go
 ├── go.mod
 ├── go.sum
+├── internal
+│   ├── config
+│   │   └── config.go
+│   └── system
+│       ├── color.go
+│       ├── desktop.go
+│       ├── distro.go
+│       ├── kernel.go
+│       ├── memory.go
+│       └── shell.go
+├── LICENSE
+├── pkg
+│   ├── cmd
+│   │   ├── bug
+│   │   │   └── bug.go
+│   │   └── root
+│   │       └── root.go
+│   └── user
+│       ├── hostname.go
+│       └── username.go
 ├── README.md
-└── Taskfile.yaml // Task runner
+└── Taskfile.yaml
+
+11 directories, 17 files
 ```
+
+# License
+MIT License
